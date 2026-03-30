@@ -4,7 +4,7 @@ Code repository for:
 
 > **"Neural Adaptive Tension for Multi-Geometry Curve Subdivision: A Unified Approach"**  
 > H. Ugail and N. Howard  
-> *The Visual Computer*, Springer, 2026
+> 
 
 ---
 
@@ -188,17 +188,7 @@ On the out-of-distribution ISS ground-track example (S²): bending energy −41%
 
 ## Citation
 
-If you use this code in your research, please cite:
 
-```bibtex
-@article{ugail2026neural,
-  title   = {Neural Adaptive Tension for Multi-Geometry Curve Subdivision:
-             A Unified Approach},
-  author  = {Ugail, Hassan and Howard, Newton},
-  journal = {The Visual Computer},
-  year    = {2026},
-  publisher = {Springer}
-}
 ```
 
 ---
