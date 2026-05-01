@@ -1,0 +1,66 @@
+project Geometry_Subdivision is
+   -- Project file for Ada SPARK implementation of curve subdivision
+   -- Compatible with GNATPROVE for formal verification
+
+   -- Source directories
+   for Source_Dirs use ("src", "c_src");
+   for Object_Dir use "obj";
+   for Executable_Dir use "bin";
+   for Executable ("main.adb") use "main";
+
+   -- Language settings
+   for Languages use ("Ada", "C");
+   for Main use ("main.adb");
+
+   -- SPARK settings
+   for Builder ("Ada") use "gnatprove";
+   for Switches ("Ada") use
+      ("-gnatN",    -- No runtime checks (for formal proof)
+       "-gnata",    -- Assertions as contracts
+       "-gnatwae",  -- Warnings as errors
+       "-gnatwe",   -- All warnings enabled
+       "-g");       -- Debug symbols
+
+   -- C compiler settings
+   for Switches ("C") use ("-O2", "-g");
+
+   -- GNATPROVE specific settings
+   package Proof is
+      -- Use multiple SMT solvers for better coverage
+      for Provers use ("Z3", "CVC4", "CVC5");
+
+      -- Proof settings
+      for Steps use 1000;          -- Max steps per proof
+      for Timeout use 60;          -- Timeout in seconds (per proof)
+      for Memory_Limit use 4096;  -- Memory limit in MB
+   end Proof;
+
+   -- Linker settings
+   package Linker is
+      for Switches ("Ada") use ("-lm");  -- Link with math library
+   end Linker;
+
+   -- Package for SPARK-specific configurations
+   package SPARK is
+      -- Enable SPARK for all Ada files
+      for Default_Contract_Tool use "gnatprove";
+
+      -- SPARK mode settings
+      for Mode use "On";
+   end SPARK;
+
+   -- Package for build configurations
+   package Builder is
+      -- Global compiler switches
+      for Global_Compilation_Switches ("Ada") use
+        ("-gnatN", "-gnata", "-gnatwae", "-gnatwe");
+
+      -- Exclude C files from SPARK analysis
+      for Excluded_Source_Files use ("c_src/math_utils.c");
+   end Builder;
+
+   -- Package for clean build
+   package Clean is
+      for Switches ("Ada") use ("-c", "-q");
+   end Clean;
+end Geometry_Subdivision;
